@@ -12,29 +12,38 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  "https://reserve-opal-xi.vercel.app";
+
+const ogImageUrl =
+  "https://reserve-opal-xi.vercel.app/opengraph-image";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://reserve-opal-xi.vercel.app"),
+  metadataBase: new URL(siteUrl),
 
   title: {
     default: "DACOPA | Reserva tu mesa",
     template: "%s | DACOPA",
   },
 
-  description: "Reserva tu mesa en DACOPA · CDMX",
+  description:
+    "Reserva tu mesa en DACOPA · CDMX",
 
   openGraph: {
     title: "DACOPA | Reserva tu mesa",
-    description: "Reserva tu mesa en DACOPA · CDMX",
-    url: "https://reserve-opal-xi.vercel.app",
+    description:
+      "Reserva tu mesa en DACOPA · CDMX",
+    url: siteUrl,
     siteName: "DACOPA",
     locale: "es_MX",
     type: "website",
     images: [
       {
-        url: "/dacopa-interior.jpg",
+        url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: "DACOPA · Reserva tu mesa",
+        alt: "DACOPA | Reserva tu mesa",
+        type: "image/png",
       },
     ],
   },
@@ -42,14 +51,14 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DACOPA | Reserva tu mesa",
-    description: "Reserva tu mesa en DACOPA · CDMX",
-    images: ["/dacopa-interior.jpg"],
+    description:
+      "Reserva tu mesa en DACOPA · CDMX",
+    images: [ogImageUrl],
   },
 
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
   },
 };
 
