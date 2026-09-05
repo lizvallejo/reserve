@@ -51,11 +51,11 @@ export default function OpenGraphImage() {
           }}
         />
 
-        {/* DACOPA ARRIBA */}
+        {/* LOGO DACOPA ARRIBA */}
         <div
           style={{
             position: "absolute",
-            top: 42,
+            top: 35,
             left: 0,
             right: 0,
             display: "flex",
@@ -63,25 +63,24 @@ export default function OpenGraphImage() {
             alignItems: "center",
           }}
         >
-          <div
+          <img
+            src="https://reserve-opal-xi.vercel.app/dacopa-logo.png"
+            alt="dacopa"
+            width="310"
+            height="120"
             style={{
-              display: "flex",
-              fontFamily: "Georgia, serif",
-              fontStyle: "italic",
-              fontSize: 76,
-              color: "#f0b0ba",
-              letterSpacing: "-3px",
+              width: "310px",
+              height: "120px",
+              objectFit: "contain",
             }}
-          >
-            dacopa
-          </div>
+          />
 
           <div
             style={{
               display: "flex",
-              marginTop: 6,
+              marginTop: 0,
               fontSize: 16,
-              color: "rgba(255,255,255,0.82)",
+              color: "rgba(255,255,255,0.9)",
               letterSpacing: "8px",
             }}
           >
@@ -110,7 +109,6 @@ export default function OpenGraphImage() {
               overflow: "hidden",
               flexShrink: 0,
               backgroundColor: "#e9aab2",
-              border: "3px solid rgba(255,255,255,0.4)",
             }}
           >
             <img
