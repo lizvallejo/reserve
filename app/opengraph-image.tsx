@@ -11,21 +11,21 @@ export const size = {
 
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export default function Image() {
   return new ImageResponse(
     (
       <div
         style={{
-          position: "relative",
+          width: "100%",
+          height: "100%",
           display: "flex",
-          width: "1200px",
-          height: "630px",
+          position: "relative",
           overflow: "hidden",
-          backgroundColor: "#111111",
+          backgroundColor: "#171717",
           fontFamily: "Arial, sans-serif",
         }}
       >
-        {/* FOTO DE DACOPA */}
+        {/* FOTO DE FONDO */}
         <img
           src="https://reserve-opal-xi.vercel.app/dacopa-interior.jpg"
           alt=""
@@ -33,29 +33,28 @@ export default function OpenGraphImage() {
           height="630"
           style={{
             position: "absolute",
-            inset: 0,
-            width: "1200px",
-            height: "630px",
+            width: "100%",
+            height: "100%",
             objectFit: "cover",
           }}
         />
 
-        {/* SOMBRA */}
+        {/* OSCURECIDO MUY SUAVE */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
             background:
-              "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.08) 65%)",
+              "linear-gradient(to bottom, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.48) 100%)",
           }}
         />
 
-        {/* LOGO DACOPA ARRIBA */}
+        {/* LOGO SUPERIOR */}
         <div
           style={{
             position: "absolute",
-            top: 35,
+            top: 38,
             left: 0,
             right: 0,
             display: "flex",
@@ -65,12 +64,10 @@ export default function OpenGraphImage() {
         >
           <img
             src="https://reserve-opal-xi.vercel.app/dacopa-logo.png"
-            alt="dacopa"
-            width="310"
-            height="120"
+            alt="DACOPA"
+            width="245"
+            height="150"
             style={{
-              width: "310px",
-              height: "120px",
               objectFit: "contain",
             }}
           />
@@ -78,10 +75,11 @@ export default function OpenGraphImage() {
           <div
             style={{
               display: "flex",
-              marginTop: 0,
-              fontSize: 16,
-              color: "rgba(255,255,255,0.9)",
-              letterSpacing: "8px",
+              marginTop: -22,
+              color: "white",
+              fontSize: 17,
+              letterSpacing: 9,
+              fontWeight: 400,
             }}
           >
             RESERVA TU MESA
@@ -92,39 +90,40 @@ export default function OpenGraphImage() {
         <div
           style={{
             position: "absolute",
-            left: 50,
-            right: 50,
-            bottom: 36,
+            left: 45,
+            bottom: 42,
             display: "flex",
             alignItems: "center",
           }}
         >
-          {/* LOGO ROSA */}
+          {/* LOGO CIRCULAR SIN BORDE GRIS */}
           <div
             style={{
-              display: "flex",
-              width: 126,
-              height: 126,
-              borderRadius: "999px",
+              width: 132,
+              height: 132,
+              borderRadius: "50%",
               overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#efb0b5",
               flexShrink: 0,
-              backgroundColor: "#e9aab2",
             }}
           >
             <img
-              src="https://reserve-opal-xi.vercel.app/icon.png"
-              alt="DACOPA"
-              width="126"
-              height="126"
+              src="https://reserve-opal-xi.vercel.app/dacopa-logo.png"
+              alt=""
+              width="132"
+              height="132"
               style={{
-                width: "126px",
-                height: "126px",
+                width: "100%",
+                height: "100%",
                 objectFit: "cover",
               }}
             />
           </div>
 
-          {/* TEXTO */}
+          {/* TEXTOS */}
           <div
             style={{
               display: "flex",
@@ -135,9 +134,10 @@ export default function OpenGraphImage() {
             <div
               style={{
                 display: "flex",
+                color: "white",
                 fontSize: 43,
-                fontWeight: 700,
-                color: "#ffffff",
+                fontWeight: 400,
+                letterSpacing: -1,
               }}
             >
               DACOPA | Reserva tu mesa
@@ -146,9 +146,10 @@ export default function OpenGraphImage() {
             <div
               style={{
                 display: "flex",
-                marginTop: 10,
+                marginTop: 13,
+                color: "rgba(255,255,255,0.88)",
                 fontSize: 27,
-                color: "rgba(255,255,255,0.78)",
+                fontWeight: 400,
               }}
             >
               Reserva tu mesa en DACOPA · CDMX
@@ -158,8 +159,7 @@ export default function OpenGraphImage() {
       </div>
     ),
     {
-      width: 1200,
-      height: 630,
+      ...size,
     }
   );
 }
