@@ -75,6 +75,21 @@ function isSameDate(a: Date | null, b: Date) {
   );
 }
 
+function cleanPhone(value: string) {
+  return value.replace(/\D/g, "").slice(0, 10);
+}
+
+function isObviouslyFakePhone(phone: string) {
+  const fakeNumbers = new Set([
+    "0000000000", "1111111111", "2222222222", "3333333333",
+    "4444444444", "5555555555", "6666666666", "7777777777",
+    "8888888888", "9999999999", "0123456789", "1234567890",
+    "9876543210",
+  ]);
+
+  return fakeNumbers.has(phone) || /^(\d)\1{9}$/.test(phone);
+}
+
 export default function Home() {
   const today = startOfDay(new Date());
 
@@ -181,13 +196,21 @@ export default function Home() {
       return;
     }
 
-    if (!name.trim()) {
-      setError("Escribe tu nombre.");
+    const cleanName = name.trim().replace(/\s+/g, " ");
+    const cleanPhoneNumber = cleanPhone(phone);
+
+    if (cleanName.length < 2 || !/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/.test(cleanName)) {
+      setError("Escribe un nombre válido.");
       return;
     }
 
-    if (!phone.trim()) {
-      setError("Escribe tu teléfono.");
+    if (cleanPhoneNumber.length !== 10) {
+      setError("Escribe un teléfono válido de 10 dígitos.");
+      return;
+    }
+
+    if (isObviouslyFakePhone(cleanPhoneNumber)) {
+      setError("Escribe un número de teléfono válido.");
       return;
     }
 
@@ -196,8 +219,8 @@ export default function Home() {
     const { error: insertError } = await supabase
       .from("Reservaciones")
       .insert({
-        guest_name: name.trim(),
-        phone: phone.trim(),
+        guest_name: cleanName,
+        phone: cleanPhoneNumber,
         reservation_date: formatDateForDB(selectedDate),
         reservation_time: selectedTime,
         party_size: people,
@@ -546,14 +569,22 @@ export default function Home() {
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 placeholder="Nombre"
+                autoComplete="name"
+                required
                 className="w-full rounded-2xl border border-white/15 bg-[#626b50]/65 px-5 py-4 text-white outline-none placeholder:text-white/45 focus:border-white/40"
               />
 
               <input
                 value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                placeholder="Teléfono"
-                inputMode="tel"
+                onChange={(event) => {
+                  setPhone(cleanPhone(event.target.value));
+                  setError("");
+                }}
+                placeholder="Teléfono a 10 dígitos"
+                inputMode="numeric"
+                autoComplete="tel"
+                maxLength={10}
+                required
                 className="w-full rounded-2xl border border-white/15 bg-[#626b50]/65 px-5 py-4 text-white outline-none placeholder:text-white/45 focus:border-white/40"
               />
             </div>
