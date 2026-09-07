@@ -158,8 +158,17 @@ export default async function HostessPage({
       params.error === "config";
 
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f7f2f0] px-5 py-10">
-        <section className="w-full max-w-[430px] rounded-[34px] border border-black/5 bg-white px-8 py-10 shadow-[0_24px_80px_rgba(54,40,35,0.12)] sm:px-10">
+      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f7f4ef] px-5 py-10">
+        <img
+          src="/hostess-background.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+
+        <div className="absolute inset-0 bg-white/8" />
+
+        <section className="relative z-10 w-full max-w-[430px] rounded-[34px] border border-black/5 bg-white/95 px-8 py-10 shadow-[0_28px_90px_rgba(54,40,35,0.16)] backdrop-blur-sm sm:px-10">
           <div className="text-center">
             <p className="text-[11px] font-medium uppercase tracking-[0.36em] text-[#9d8b85]">
               RESERVÉ
