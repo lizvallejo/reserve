@@ -63,6 +63,12 @@ function toDateKey(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
+function isOpenDay(date: Date) {
+  const day = date.getDay();
+
+  return day >= 3 && day <= 6;
+}
+
 function formatTime(time: string) {
   const [hours, minutes] =
     time.split(":").map(Number);
@@ -268,6 +274,12 @@ export default function HostessDashboard({
   const tomorrowKey =
     toDateKey(tomorrow);
 
+  const todayIsOpen =
+    isOpenDay(today);
+
+  const tomorrowIsOpen =
+    isOpenDay(tomorrow);
+
   const nextOpenDates =
     useMemo(() => {
       const dates: Date[] = [];
@@ -279,13 +291,7 @@ export default function HostessDashboard({
       );
 
       while (dates.length < 8) {
-        const day =
-          cursor.getDay();
-
-        if (
-          day >= 3 &&
-          day <= 6
-        ) {
+        if (isOpenDay(cursor)) {
           dates.push(
             new Date(cursor)
           );
@@ -299,20 +305,33 @@ export default function HostessDashboard({
       return dates;
     }, [today]);
 
+  const firstAvailableDate =
+    todayIsOpen
+      ? todayKey
+      : tomorrowIsOpen
+      ? tomorrowKey
+      : nextOpenDates.length > 0
+      ? toDateKey(nextOpenDates[0])
+      : todayKey;
+
   const selectedMapDate =
     filter === "tomorrow"
       ? tomorrowKey
       : filter === "date" &&
         selectedDate
       ? selectedDate
-      : todayKey;
+      : todayIsOpen
+      ? todayKey
+      : firstAvailableDate;
 
   const selectedTurnDateLabel =
-    filter === "today"
+    filter === "today" &&
+    todayIsOpen
       ? `Hoy · ${formatDate(
           todayKey
         )}`
-      : filter === "tomorrow"
+      : filter === "tomorrow" &&
+        tomorrowIsOpen
       ? `Mañana · ${formatDate(
           tomorrowKey
         )}`
@@ -325,15 +344,8 @@ export default function HostessDashboard({
       .filter(
         (reservation) => {
           const matchesDate =
-            filter === "today"
-              ? reservation.reservation_date ===
-                todayKey
-              : filter ===
-                "tomorrow"
-              ? reservation.reservation_date ===
-                tomorrowKey
-              : reservation.reservation_date ===
-                selectedDate;
+            reservation.reservation_date ===
+            selectedMapDate;
 
           const isWalkIn =
             reservation.phone ===
@@ -586,15 +598,24 @@ export default function HostessDashboard({
     ).length;
 
   const filterOptions = [
-    {
-      value: "today" as const,
-      label: "Hoy",
-    },
-    {
-      value:
-        "tomorrow" as const,
-      label: "Mañana",
-    },
+    ...(todayIsOpen
+      ? [
+          {
+            value:
+              "today" as const,
+            label: "Hoy",
+          },
+        ]
+      : []),
+    ...(tomorrowIsOpen
+      ? [
+          {
+            value:
+              "tomorrow" as const,
+            label: "Mañana",
+          },
+        ]
+      : []),
   ];
 
   const quickFilterOptions = [
@@ -691,7 +712,10 @@ export default function HostessDashboard({
   function handleWalkInCreated(
     reservation: Reservation
   ) {
-    setFilter("today");
+    setSelectedDate(
+      reservation.reservation_date
+    );
+    setFilter("date");
     setSettingsOpen(false);
     setReservationsOpen(false);
 
@@ -887,6 +911,9 @@ export default function HostessDashboard({
             />
 
             <WalkInPanel
+              selectedDate={
+                selectedMapDate
+              }
               onCreated={
                 handleWalkInCreated
               }

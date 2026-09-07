@@ -20,12 +20,14 @@ type Reservation = {
 };
 
 type Props = {
+  selectedDate: string;
   onCreated?: (
     reservation: Reservation
   ) => void;
 };
 
 export default function WalkInPanel({
+  selectedDate,
   onCreated,
 }: Props) {
   const router = useRouter();
@@ -94,7 +96,7 @@ export default function WalkInPanel({
             phone: "Walk-in",
 
             reservation_date:
-              getToday(),
+              selectedDate,
 
             reservation_time:
               getCurrentReservationTime(),
@@ -166,23 +168,6 @@ export default function WalkInPanel({
     resetForm();
 
     setOpen(false);
-  }
-
-  function getToday() {
-    const now = new Date();
-
-    const year =
-      now.getFullYear();
-
-    const month = String(
-      now.getMonth() + 1
-    ).padStart(2, "0");
-
-    const day = String(
-      now.getDate()
-    ).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
   }
 
   function getCurrentReservationTime() {
